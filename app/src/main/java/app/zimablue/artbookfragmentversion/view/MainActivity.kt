@@ -1,17 +1,15 @@
-package app.zimablue.artbookfragmentversion
+package app.zimablue.artbookfragmentversion.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.fragment.app.commit
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import app.zimablue.artbookfragmentversion.R
 import app.zimablue.artbookfragmentversion.databinding.ActivityMainBinding
-import app.zimablue.artbookfragmentversion.view.ArtListFragment
-import app.zimablue.artbookfragmentversion.view.ArtListFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,8 +45,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if(item.itemId == R.id.addArtItem){
-            val action = ArtListFragmentDirections.actionArtListFragmentToDetailArtFragment("new")
-            Navigation.findNavController(this,R.id.MainActivityFragmentContainerView).navigate(action)
+            val action = ArtListFragmentDirections.actionArtListFragmentToDetailArtFragment(0,"new")
+            Navigation.findNavController(this, R.id.MainActivityFragmentContainerView).navigate(action)
         }
 
         return super.onOptionsItemSelected(item)

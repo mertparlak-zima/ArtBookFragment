@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-
     id 'kotlin-kapt'
 
 
@@ -16,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId "app.zimablue.artbookfragmentversion"
-        minSdk 21
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -68,7 +67,13 @@ dependencies {
     implementation "androidx.room:room-runtime:2.5.0"
     annotationProcessor "androidx.room:room-compiler:2.5.0"
 
-    kapt("androidx.room:room-compiler:2.5.0")
+    kapt "androidx.room:room-compiler:2.5.0"
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.5.0")
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+
+
 
 
 

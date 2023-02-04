@@ -24,8 +24,7 @@
             app:destination="@id/artListFragment" />
         <argument
             android:name="id"
-            app:argType="integer"
-            android:defaultValue="0" />
+            app:argType="integer"/>
         <argument
             android:name="info"
             app:argType="string" />
