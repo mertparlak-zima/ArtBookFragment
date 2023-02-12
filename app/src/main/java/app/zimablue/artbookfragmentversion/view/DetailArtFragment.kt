@@ -30,13 +30,14 @@ import app.zimablue.artbookfragmentversion.model.ArtEntity
 import app.zimablue.artbookfragmentversion.roomdb.ArtDao
 import app.zimablue.artbookfragmentversion.roomdb.ArtDatabase
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 
 class DetailArtFragment : Fragment() {
+
+
 
     private lateinit var binding: FragmentDetailArtBinding
 
@@ -49,7 +50,9 @@ class DetailArtFragment : Fragment() {
     var selectedPictureUri : Uri? = null
     var selectedBitmap : Bitmap? = null
 
-    var artFromMain : ArtEntity? = null
+    private lateinit var artFromMain : ArtEntity
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -74,6 +77,11 @@ class DetailArtFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
+
+
+
         binding.saveButton.setOnClickListener {
             save(view)
         }
@@ -110,37 +118,62 @@ class DetailArtFragment : Fragment() {
                 val selectedId = DetailArtFragmentArgs.fromBundle(it).id
 
                 lifecycleScope.launch{
-                    artDao.getArtById(selectedId).collect{artEntity ->
 
-                        artEntity.let {
 
-                            oldArtDetails(it)
+                    artDao.getArtById(selectedId).collect(){artEntity ->
+
+                        if (artEntity != null){
+                            oldArtDetails(artEntity)
+
                         }
 
+
                     }
-
-
                 }
-
-
             }
         }
-
         super.onViewCreated(view, savedInstanceState)
     }
 
     private fun oldArtDetails(art : ArtEntity){
-        artFromMain = art
-        binding.artText.setText(art.artName)
-        binding.artistText.setText(art.artistName)
-        binding.yearText.setText(art.year)
 
-        art.image?.let {
+
+
+        artFromMain = art
+
+
+
+
+        art.artName.let {
+            binding.artText.setText(it)
+        }
+        art.artistName.let {
+            binding.artistText.setText(it)
+        }
+        art.year.let {
+            binding.yearText.setText(it)
+        }
+        art.image.let {
             val bitmap = it.let {
                 BitmapFactory.decodeByteArray(it,0, it.size) }
             binding.imageView.setImageBitmap(bitmap)
-
         }
+
+
+    }
+
+
+    fun delete(view: View) {
+
+        artFromMain.let {
+            lifecycleScope.launch{
+
+                artDao.delete(it)
+                goMainScreenAfterDelete()
+
+            }
+        }
+
     }
 
 
@@ -212,12 +245,10 @@ class DetailArtFragment : Fragment() {
         }
         permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
             if (result) {
-                println("hata6")
                 //permission granted
                 val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 activityResultLauncher.launch(intentToGallery)
             } else {
-                println("hata7")
                 //permission denied
                 Toast.makeText(requireContext(), "Permission needed!", Toast.LENGTH_LONG).show()
 
@@ -271,17 +302,6 @@ class DetailArtFragment : Fragment() {
         Toast.makeText(requireContext(),"Successfully deleted!",Toast.LENGTH_SHORT).show()
     }
 
-
-    fun delete(view: View) {
-
-        artFromMain?.let {
-            lifecycleScope.launch{
-                artDao.delete(it)
-                goMainScreenAfterDelete()
-            }
-        }
-
-    }
 
 
 }

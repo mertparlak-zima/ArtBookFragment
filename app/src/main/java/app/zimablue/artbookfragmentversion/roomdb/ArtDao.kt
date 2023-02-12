@@ -16,7 +16,7 @@ interface ArtDao {
     @Delete
     suspend fun delete(artEntity: ArtEntity)
 
-    @Query("SELECT name, id FROM `art-table`")
+    @Query("SELECT * FROM `art-table`")
     fun getArtWithNameAndId():Flow<List<ArtEntity>>
 
     @Query("SELECT * FROM `art-table` WHERE id = :id")

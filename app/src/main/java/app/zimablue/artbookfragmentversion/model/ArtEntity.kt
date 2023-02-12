@@ -9,16 +9,16 @@ import androidx.room.PrimaryKey
 class ArtEntity(
 
     @ColumnInfo(name = "name")
-    var artName : String,
+    @NonNull var artName : String,
 
-    @ColumnInfo(name = "artistname")
-    var artistName: String?,
+    @NonNull @ColumnInfo(name = "artistname")
+    var artistName: String,
 
-    @ColumnInfo(name = "year")
-    var year : String?,
+    @NonNull @ColumnInfo(name = "year")
+    var year : String,
 
-    @ColumnInfo(name = "image")
-    var image : ByteArray?
+    @NonNull @ColumnInfo(name = "image")
+    var image : ByteArray
 
 ) {
     @PrimaryKey(autoGenerate = true)

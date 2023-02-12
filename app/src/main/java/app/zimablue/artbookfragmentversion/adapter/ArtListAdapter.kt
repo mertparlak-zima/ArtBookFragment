@@ -20,11 +20,16 @@ class ArtListAdapter(val artList : List<ArtEntity>): RecyclerView.Adapter<ArtLis
     }
 
     override fun getItemCount(): Int {
-        return artList.size
+        return artList.let {
+            artList.size
+        }
     }
 
     override fun onBindViewHolder(holder: ArtHolder, position: Int) {
-        holder.binding.artNameText.text = artList[position].artName
+        artList[position].artName.let {
+            holder.binding.artNameText.text = it
+        }
+//        holder.binding.artNameText.text = artList[position].artName
         holder.itemView.setOnClickListener {
             val action = ArtListFragmentDirections.actionArtListFragmentToDetailArtFragment(artList[position].id,"old")
             Navigation.findNavController(it).navigate(action)

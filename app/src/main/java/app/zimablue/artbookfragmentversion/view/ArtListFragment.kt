@@ -14,6 +14,7 @@ import app.zimablue.artbookfragmentversion.databinding.FragmentArtListBinding
 import app.zimablue.artbookfragmentversion.model.ArtEntity
 import app.zimablue.artbookfragmentversion.roomdb.ArtDao
 import app.zimablue.artbookfragmentversion.roomdb.ArtDatabase
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ArtListFragment : Fragment() {
@@ -50,18 +51,30 @@ class ArtListFragment : Fragment() {
         getArtFromDB()
     }
 
-    fun getArtFromDB(){
+    private fun getArtFromDB(){
+
+
+
         lifecycleScope.launch {
-            artDao.getArtWithNameAndId().collect{
+            artDao.getArtWithNameAndId().collect(){
+
                 handleResponse(it)
+
+
 
             }
         }
     }
 
     private fun handleResponse(artList: List<ArtEntity>){
+
+
         binding?.artListFragmentRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
-        artAdapter = ArtListAdapter(artList)
+        artList.let {
+            artAdapter = ArtListAdapter(it)
+
+        }
+//        artAdapter = ArtListAdapter(artList)
         binding?.artListFragmentRecyclerView?.adapter = artAdapter
     }
 
